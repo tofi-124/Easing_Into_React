@@ -55,7 +55,7 @@ const data = {
     name: "Tofi",
   },
   likes: 5,
-  retweets: 0,
+  retweets: 2,
   timestamp: "2022-01-01 21:24:37",
 };
 
