@@ -1,55 +1,83 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import 'font-awesome/css/font-awesome.min.css';
+import "font-awesome/css/font-awesome.min.css";
+import moment from "moment";
 
-function Tweet() {
+function Tweet({ tweet }) {
   return (
     <div className="tweet">
-      <Avatar />
+      <Avatar hash={tweet.gravatar} />
       <div className="content">
-        <Author />
-        <Time />
-        <Message />
+        <Author text={tweet.author} />
+        <Time time={tweet.timestamp} />
+        <Message text={tweet.message} />
         <div className="buttons">
           <ReplyButton />
-          <RetweetButton />
-          <LikeButton />
+          <RetweetButton count={tweet.retweets} />
+          <LikeButton count={tweet.likes} />
         </div>
       </div>
     </div>
   );
 }
 
-const ReplyButton = () => <i className="fa fa-reply reply-button"></i>;
-const RetweetButton = () => <i className="fa fa-retweet retweet-button"></i>;
-const LikeButton = () => <i className="fa fa-heart like-button"></i>;
-
-function Message() {
-  return <div className="message">this is a tweet</div>;
+function retweetGet(count) {
+  if (count > 0) return <span className="rewteet-count">{count}</span>;
+  return null;
 }
 
-function Author() {
+const ReplyButton = () => <i className="fa fa-reply reply-button"></i>;
+
+const RetweetButton = ({ count }) => {
+  return (
+    <span className="retweet-button">
+      <i className="fa fa-retweet " />
+      {retweetGet(count)}
+    </span>
+  );
+};
+
+const LikeButton = ({ count }) => {
+  return (
+    <span className="like-button">
+      <i className="fa fa-heart " />
+      {count > 0 && <span className="like-count">{count}</span>}
+    </span>
+  );
+};
+
+const data = {
+  message: "A tweet about me",
+  gravatar: "https://www.gravatar.com/avatar/nothing",
+  author: {
+    handle: "@tofi124",
+    name: "Tofi",
+  },
+  likes: 5,
+  retweets: 0,
+  timestamp: "2022-01-01 21:24:37",
+};
+
+function Message({ text }) {
+  return <div className="message">{text}</div>;
+}
+
+function Author({ text }) {
   return (
     <span className="author">
-      <span className="name">Tofik</span>
-      <span className="handle">@123</span>
+      <span className="name">{text.name}</span>
+      <span className="handle">{text.handle}</span>
     </span>
   );
 }
 
-function Time() {
-  return <span className="time">5 hours ago</span>;
+function Time({ time }) {
+  return <span className="time">{moment(time).fromNow()}</span>;
 }
 
-function Avatar() {
-  return (
-    <img
-      src="https://www.gravatar.com/avatar/nothing"
-      alt="avatar"
-      className="avatar"
-    />
-  );
+function Avatar({ hash }) {
+  return <img src={hash} alt="avatar" className="avatar" />;
 }
 
-ReactDOM.render(<Tweet />, document.querySelector("#root"));
+ReactDOM.render(<Tweet tweet={data} />, document.querySelector("#root"));
