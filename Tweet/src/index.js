@@ -2,7 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import "font-awesome/css/font-awesome.min.css";
-import moment from "moment";
+
+
+import Avatar from "./Avatar";
+import Author from "./Author";
+import Time from "./Time";
+import Message from "./Message";
 
 function Tweet({ tweet }) {
   return (
@@ -58,26 +63,5 @@ const data = {
   retweets: 2,
   timestamp: "2022-01-01 21:24:37",
 };
-
-function Message({ text }) {
-  return <div className="message">{text}</div>;
-}
-
-function Author({ text }) {
-  return (
-    <span className="author">
-      <span className="name">{text.name}</span>
-      <span className="handle">{text.handle}</span>
-    </span>
-  );
-}
-
-function Time({ time }) {
-  return <span className="time">{moment(time).fromNow()}</span>;
-}
-
-function Avatar({ hash }) {
-  return <img src={hash} alt="avatar" className="avatar" />;
-}
 
 ReactDOM.render(<Tweet tweet={data} />, document.querySelector("#root"));
